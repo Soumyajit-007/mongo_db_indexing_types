@@ -1,0 +1,164 @@
+{
+  "info": {
+    "_postman_id": "da6cb955-7ef6-4b60-8b96-7fbf564aaa3f",
+    "name": "DB Indexing API",
+    "description": "Requests for the MongoDB Indexing Types API. Set baseUrl if the server runs on a different host or port.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health check",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": ["{{baseUrl}}"],
+          "path": [""]
+        },
+        "description": "Confirms that the API is online. No query parameters or request body are required."
+      },
+      "response": []
+    },
+    {
+      "name": "Create item",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"ada.lovelace\",\n  \"email\": \"ada.lovelace@example.com\",\n  \"firstName\": \"Ada\",\n  \"lastName\": \"Lovelace\",\n  \"tags\": [\"engineering\", \"history\"],\n  \"description\": \"Pioneer in computer programming.\",\n  \"location\": {\n    \"type\": \"Point\",\n    \"coordinates\": [77.5946, 12.9716]\n  },\n  \"status\": \"active\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/demo",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "demo"]
+        },
+        "description": "Creates an item. Required fields: username, email, firstName, lastName, and location.coordinates ([longitude, latitude]). username and email must be unique. status may be active, inactive, or pending."
+      },
+      "response": []
+    },
+    {
+      "name": "Search items",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/demo/search",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "demo", "search"],
+          "query": [
+            {
+              "key": "text",
+              "value": "computer programming",
+              "disabled": true,
+              "description": "Optional full-text search term for description."
+            },
+            {
+              "key": "tag",
+              "value": "engineering",
+              "disabled": true,
+              "description": "Optional tag to match."
+            },
+            {
+              "key": "lng",
+              "value": "77.5946",
+              "disabled": true,
+              "description": "Optional longitude. Enable with lat for a nearest-location search."
+            },
+            {
+              "key": "lat",
+              "value": "12.9716",
+              "disabled": true,
+              "description": "Optional latitude. Enable with lng for a nearest-location search."
+            },
+            {
+              "key": "maxDistance",
+              "value": "5000",
+              "disabled": true,
+              "description": "Optional maximum distance in metres for a geospatial search; defaults to 5000."
+            }
+          ]
+        },
+        "description": "Searches by text, tag, or proximity. Query parameters are disabled by default; enable the ones needed in Postman. text cannot be combined with lng or lat, and proximity searches require both lng and lat. No request body is required."
+      },
+      "response": []
+    },
+    {
+      "name": "List/filter items",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/demo",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "demo"],
+          "query": [
+            {
+              "key": "username",
+              "value": "ada.lovelace",
+              "disabled": true,
+              "description": "Optional exact username filter."
+            },
+            {
+              "key": "firstName",
+              "value": "Ada",
+              "disabled": true,
+              "description": "Optional first-name filter. Enable together with lastName to use the compound-name filter."
+            },
+            {
+              "key": "lastName",
+              "value": "Lovelace",
+              "disabled": true,
+              "description": "Optional last-name filter. Enable together with firstName to use the compound-name filter."
+            },
+            {
+              "key": "status",
+              "value": "active",
+              "disabled": true,
+              "description": "Optional status filter: active, inactive, or pending."
+            }
+          ]
+        },
+        "description": "Lists items or applies exact filters. Query parameters are disabled by default; enable the desired filters in Postman. No request body is required."
+      },
+      "response": []
+    }
+  ]
+}
